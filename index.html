@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Getting Started with Chart JS with www.chartjs3.com</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      .chartMenu {
+        width: 100vw;
+        height: 40px;
+        background: #1A1A1A;
+        color: rgba(255, 26, 104, 1);
+      }
+      .chartMenu p {
+        padding: 10px;
+        font-size: 20px;
+      }
+      .chartCard {
+        width: 100vw;
+        height: calc(100vh - 40px);
+        background: rgba(255, 26, 104, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chartBox {
+        width: 700px;
+        padding: 20px;
+        border-radius: 20px;
+        border: solid 3px rgba(255, 26, 104, 1);
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chartMenu">
+      <p>WWW.CHARTJS3.COM (Chart JS 3.8.0)</p>
+    </div>
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="myChart"></canvas>
+<select id="year" onchange="changeFinancials()">
+<option value="2020">2020</option>
+<option value="2021">2021</option>
+<option value="2022">2022</option>
+</select>
+<select id="financial" onchange="changeFinancials()">
+<option value="cost">cost</option>
+<option value="sales">sales</option>
+<option value="profit">profit</option>
+</select>
+      </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    // setup 
+    const data = {
+      
+      datasets: [{
+        label: 'Weekly Sales',
+        
+	data: [
+	{ id: 'mon', financials:
+	 {
+		2020:{ cost: 15, sales:70, profit:67 },
+		2021:{ cost: 35, sales:70, profit:44 },
+		2022:{ cost: 14, sales:80, profit:22 },
+	 }
+	},
+	{ id: 'tue', financials:
+	 {
+		2020:{ cost: 54, sales:46, profit:73 },
+		2021:{ cost: 20, sales:70, profit:44 },
+		2022:{ cost: 14, sales:80, profit:22 },
+	 }
+	},
+	],
+        backgroundColor: [
+          'rgba(255, 26, 104, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(0, 0, 0, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 26, 104, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(0, 0, 0, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    // config 
+    const config = {
+      type: 'bar',
+      data,
+      options: {
+	parsing: {
+	 xAxisKey: 'id',
+	 yAxisKey: 'financials.2020.cost'
+	},
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    // render init block
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+function changeFinancials(){
+const year = document.getElementById('year').value;
+const financial = document.getElementById('financial').value;
+console.log(year);
+myChart.config.options.parsing.yAxisKey = `financials.${year}.${financial}`;
+
+myChart.update();
+}
+    </script>
+
+  </body>
+</html>
